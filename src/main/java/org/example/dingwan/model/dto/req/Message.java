@@ -1,11 +1,8 @@
 package org.example.dingwan.model.dto.req;
 
-import lombok.Builder;
-import lombok.Data;
-
-@Data
-@Builder
-public class Message {
-    private String role;
-    private String content;
+/**
+ * @author wangcai
+ * @date 2026/2/26
+ */
+public interface Message {
 }

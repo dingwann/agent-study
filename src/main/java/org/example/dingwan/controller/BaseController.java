@@ -5,7 +5,7 @@ import org.example.dingwan.common.BaseResponse;
 import org.example.dingwan.common.ResultUtils;
 import org.example.dingwan.consts.ChatRequestParam;
 import org.example.dingwan.model.dto.req.ChatParamsRequest;
-import org.example.dingwan.model.dto.req.Message;
+import org.example.dingwan.model.dto.req.UserMessage;
 import org.example.dingwan.model.dto.res.ChatResponseRoot;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +35,7 @@ public class BaseController {
     public BaseResponse<ChatResponseRoot> chat(@RequestParam String query) {
         ChatParamsRequest paramsRequest = ChatParamsRequest.builder()
                 .model(ChatRequestParam.MODEL)
-                .messages(List.of(Message.builder()
-                        .role("user")
+                .messages(List.of(UserMessage.builder()
                         .content(query)
                         .build()))
                 .max_completion_tokens(ChatRequestParam.MAX_TOKEN)

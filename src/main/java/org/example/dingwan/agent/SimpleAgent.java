@@ -48,7 +48,7 @@ public class SimpleAgent {
     private static final Pattern ARGS_CONTENT_PATTERN = Pattern.compile("\\((.*)\\)");
     private static final Pattern KV_PATTERN = Pattern.compile("(\\w+)=\"([^\"]*)\"");
 
-    public void execute(String prompt) throws Exception {
+    public String execute(String prompt) throws Exception {
         log.info("SimpleAgent start");
         // 初始化
         promptList.add(String.format("用户请求：%s", prompt));
@@ -87,27 +87,32 @@ public class SimpleAgent {
             }
             String actionStr = matchered.group(1).trim();
             if (actionStr.startsWith("Finish")) {
-                String finalAnswer = FINISH_PATTERN.matcher(llmGenerate).group(1).trim();
+                Matcher matcher_finish = FINISH_PATTERN.matcher(llmGenerate);
+                matcher_finish.find();
+                String finalAnswer = matcher_finish.group(1).trim();
                 log.info("任务完成，最终答案：{}", finalAnswer);
-                break;
+                return finalAnswer;
             }
             // 执行llm的行动
-            String toolName = TOOL_NAME_PATTERN.matcher(actionStr).group(1);
-            String argStr = ARGS_CONTENT_PATTERN.matcher(actionStr).group(1);
+            Matcher toolMatcher = TOOL_NAME_PATTERN.matcher(actionStr);
+            toolMatcher.find();  // 先执行匹配
+            String toolName = toolMatcher.group(1);
+            Matcher argsMatcher = ARGS_CONTENT_PATTERN.matcher(actionStr);
+            argsMatcher.find();  // 先执行匹配
+            String argStr = argsMatcher.group(1);
             Map<String, String> kwargs = new HashMap<>();
-            if (argStr != null) {
-                Matcher kvMatcher = KV_PATTERN.matcher(argStr);
-                while (kvMatcher.find()) {
-                    kwargs.put(kvMatcher.group(1), kvMatcher.group(2));
-                }
+            Matcher kvMatcher = KV_PATTERN.matcher(argStr);
+            while (kvMatcher.find()) {
+                kwargs.put(kvMatcher.group(1), kvMatcher.group(2));
             }
             if (!ToolList.isExist(toolName))
                 observation = String.format("错误，未定义的工具{%s}", toolName);
             observation = execTool(toolName, kwargs);
             String observationStr = String.format("Observation：%s", observation);
-            log.info("observationStr\n");
+            log.info("observationStr：\n{}", observationStr);
             promptList.add(observationStr);
         }
+        return "抱歉，我无法完成您的请求。";
     }
 
     private String execTool(String toolName, Map<String, String> kwargs) throws Exception {
@@ -123,7 +128,7 @@ public class SimpleAgent {
                 execMethod = method;
             }
         }
-        return execMethod.invoke(obj, kwargs.values()).toString();
+        return execMethod.invoke(obj, kwargs.values().toArray()).toString();
     }
 
 }

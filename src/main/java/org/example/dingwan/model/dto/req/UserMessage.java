@@ -2,15 +2,14 @@ package org.example.dingwan.model.dto.req;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
-public class UserMessage extends Message {
+public class UserMessage implements Message {
+    private String role;
+    private String content;
 
-    public UserMessage(String content) {
-        super("user", content);
+    public static UserMessage.UserMessageBuilder builder() {
+        return new UserMessage.UserMessageBuilder().role("user");
     }
-
 }

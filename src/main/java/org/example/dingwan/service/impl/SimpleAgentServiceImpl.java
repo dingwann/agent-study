@@ -15,11 +15,10 @@ public class SimpleAgentServiceImpl implements SimpleAgentService {
     @Override
     public String chat(String query) {
         try {
-            simpleAgent.execute(query);
+            return simpleAgent.execute(query);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return "ok";
     }
 
 }
