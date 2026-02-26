@@ -1,0 +1,5 @@
+# 将文件名改为application-dev.yml再启动
+xiaomi:
+  api-key: <input your apikey>
+tavily:
+  api-key: <input your apikey>
