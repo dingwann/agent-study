@@ -5,9 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.dingwan.agent.prompt.SimplePrompt;
 import org.example.dingwan.agent.tool.SimpleTool;
 import org.example.dingwan.agent.tool.ToolList;
-import org.example.dingwan.exception.BusinessException;
-import org.example.dingwan.exception.ErrorCode;
-import org.example.dingwan.exception.ThrowUtils;
 import org.example.dingwan.service.ChatService;
 import org.example.dingwan.tool.TavilyTool;
 import org.example.dingwan.tool.WeatherTool;
@@ -72,7 +69,7 @@ public class SimpleAgent {
                 }
             }
             // 打印日志
-            log.info("模型输出:\n" + llmGenerate + "\n");
+            log.info("模型输出:\n{}\n", llmGenerate);
             // 添加到历史
             promptList.add(llmGenerate);
             // 解析并行动

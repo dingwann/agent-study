@@ -1,0 +1,43 @@
+package org.example.dingwan.agent.tool;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.Map;
+
+public class ToolExecutor {
+
+    private ToolRegistry registry;
+    private final ObjectMapper objectMapper =  new ObjectMapper();
+
+    public ToolExecutor(ToolRegistry registry) {
+        this.registry = registry;
+    }
+
+    public Object execute(String toolName,
+                          Map<String, Object> args) throws Exception {
+
+        ToolDefinition tool = registry.get(toolName);
+
+        Method method = tool.getMethod();
+
+        Object[] params = buildArgs(method, args);
+
+        return method.invoke(tool.getTarget(), params);
+    }
+
+    private Object[] buildArgs(Method method,
+                               Map<String, Object> args) {
+
+        Parameter[] parameters = method.getParameters();
+
+        Object[] result = new Object[parameters.length];
+
+        for (int i = 0; i < parameters.length; i++) {
+            result[i] = args.get(parameters[i].getName());
+        }
+
+        return result;
+    }
+}

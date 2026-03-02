@@ -1,7 +1,6 @@
 package org.example.dingwan.tool;
 
-import org.example.dingwan.model.dto.req.CurrentCondition;
-import org.example.dingwan.model.dto.WeatherResponse;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
