@@ -3,3 +3,5 @@ xiaomi:
   api-key: <input your apikey>
 tavily:
   api-key: <input your apikey>
+google:
+  serp-api-key: <input your apikey>

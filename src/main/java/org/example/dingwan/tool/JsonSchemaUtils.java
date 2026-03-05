@@ -1,6 +1,6 @@
 package org.example.dingwan.tool;
 
-import org.example.dingwan.agent.tool.AiParam;
+import org.example.dingwan.annotation.AiParam;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -44,7 +44,7 @@ public class JsonSchemaUtils {
 
             if (param.isAnnotationPresent(AiParam.class)) {
                 AiParam p = param.getAnnotation(AiParam.class);
-                paramSchema.put("description", p.description());
+                paramSchema.put("description", p.value());
             }
 
             properties.put(param.getName(), paramSchema);
