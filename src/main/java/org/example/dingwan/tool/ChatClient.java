@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.dingwan.consts.ChatRequestParam;
 import org.example.dingwan.model.dto.req.ChatParamsRequest;
 import org.example.dingwan.model.dto.req.SystemMessage;
+import org.example.dingwan.model.dto.req.Thinking;
 import org.example.dingwan.model.dto.req.UserMessage;
 import org.example.dingwan.model.dto.res.ChatResponseRoot;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,6 +42,23 @@ public class ChatClient {
         ChatParamsRequest chatParamsRequest = ChatParamsRequest.builder()
                 .model(ChatRequestParam.MODEL)
                 .max_completion_tokens(ChatRequestParam.MAX_TOKEN)
+                .thinking(Thinking.builder().type("enabled").build())
+                .temperature(0.3)
+                .messages(List.of(UserMessage.builder().content(userMessage).build()))
+                .build();
+        return restClient.post()
+                .body(chatParamsRequest)
+                .retrieve()
+                .toEntity(ChatResponseRoot.class)
+                .getBody();
+    }
+
+    public ChatResponseRoot chat(String userMessage, Double temperature) {
+        ChatParamsRequest chatParamsRequest = ChatParamsRequest.builder()
+                .model(ChatRequestParam.MODEL)
+                .max_completion_tokens(ChatRequestParam.MAX_TOKEN)
+                .thinking(Thinking.builder().type("enabled").build())
+                .temperature(temperature)
                 .messages(List.of(UserMessage.builder().content(userMessage).build()))
                 .build();
         return restClient.post()
@@ -56,6 +74,25 @@ public class ChatClient {
         ChatParamsRequest chatParamsRequest = ChatParamsRequest.builder()
                 .model(ChatRequestParam.MODEL)
                 .max_completion_tokens(ChatRequestParam.MAX_TOKEN)
+                .thinking(Thinking.builder().type("enabled").build())
+                .temperature(0.3)
+                .messages(List.of(systemPrompt, userPrompt))
+                .build();
+        return restClient.post()
+                .body(chatParamsRequest)
+                .retrieve()
+                .toEntity(ChatResponseRoot.class)
+                .getBody();
+    }
+
+    public ChatResponseRoot chat(String userMessage, String systemMessage, Double temperature) {
+        UserMessage userPrompt = UserMessage.builder().content(userMessage).build();
+        SystemMessage systemPrompt = SystemMessage.builder().content(systemMessage).build();
+        ChatParamsRequest chatParamsRequest = ChatParamsRequest.builder()
+                .model(ChatRequestParam.MODEL)
+                .max_completion_tokens(ChatRequestParam.MAX_TOKEN)
+                .thinking(Thinking.builder().type("enabled").build())
+                .temperature(temperature)
                 .messages(List.of(systemPrompt, userPrompt))
                 .build();
         return restClient.post()

@@ -11,4 +11,5 @@ public class ChatParamsRequest {
     private List<Message> messages;
     private int max_completion_tokens;
     private Thinking thinking;
+    private Double temperature;
 }

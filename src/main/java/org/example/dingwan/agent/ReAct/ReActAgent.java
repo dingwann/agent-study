@@ -63,7 +63,7 @@ public class ReActAgent {
                     .replace("{question}", question)
                     .replace("{history}", historyStr);
             // 调用LLM进行思考
-            ChatResponseRoot chatResponse = this.chatClient.chat(question, PromptResult);
+            ChatResponseRoot chatResponse = this.chatClient.chat(question, PromptResult, 0.6);
             if (chatResponse == null) {
                 log.debug("大模型调用失败");
                 break;
