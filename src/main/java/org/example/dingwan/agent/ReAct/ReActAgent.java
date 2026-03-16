@@ -63,14 +63,17 @@ public class ReActAgent {
                     .replace("{question}", question)
                     .replace("{history}", historyStr);
             // 调用LLM进行思考
-            ChatResponseRoot chatResponse = this.chatClient.chat(question, PromptResult, 0.6);
+            ChatResponseRoot chatResponse = this.chatClient.chat(question, PromptResult);
             if (chatResponse == null) {
                 log.debug("大模型调用失败");
                 break;
             }
             // 解析、执行、整合
             String chatResponseStr = chatResponse.getChoices().get(0).getMessage().getContent();
+            log.info(chatResponseStr);
             Map<String, Object> chatOutputSchema = parseOutput(chatResponseStr);
+            String chatThoughtStr = chatOutputSchema.get("thought").toString();
+            log.info("🤔 思考：{}", chatThoughtStr);
             Map<String, Object> chatActionStr = parseAction(chatOutputSchema.get("action").toString());
             if (chatActionStr.containsKey("finish")) {
                 // 任务已经完成
