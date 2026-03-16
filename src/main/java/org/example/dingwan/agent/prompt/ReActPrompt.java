@@ -6,7 +6,7 @@ package org.example.dingwan.agent.prompt;
 public class ReActPrompt {
 
     public static final String REACT_PROMPT_TEMPLATE = """
-            请注意，你是一个有能力调用外部工具的智能助手。
+            请注意，你是一个有能力调用外部工具的智能助手，当你搜集到足够的信息时就可以总结答案进行回答了。
             可用工具如下:
             {tools}
             请严格按照以下格式进行回应:
@@ -18,6 +18,13 @@ public class ReActPrompt {
             1. 必须使用 JSON 对象
             2. key 必须是参数名
             3. value 是参数值
+            格式回应示例：
+            - 示例1
+            Thought: 我需要查询2026年的行业趋势，需要调用search工具。
+            Action: search[{ "query": "2026年的行业趋势" }]
+            - 示例2
+            Thought: 我已经搜集到足够的信息了，可以回答用户问题了。
+            Action: Finish[最终答案]: 答案。
             现在，请开始解决以下问题:
             Question: {question}
             History: {history}
