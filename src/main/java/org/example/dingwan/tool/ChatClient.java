@@ -105,7 +105,7 @@ public class ChatClient {
                 .max_completion_tokens(ChatRequestParam.MAX_TOKEN)
                 .thinking(Thinking.builder().type("enabled").build())
                 .temperature(0.3)
-                .messages(List.of(messages))
+                .messages(messages)
                 .build();
         return restClient.post()
                 .body(chatParamsRequest)
@@ -120,7 +120,7 @@ public class ChatClient {
                 .max_completion_tokens(ChatRequestParam.MAX_TOKEN)
                 .thinking(Thinking.builder().type("enabled").build())
                 .temperature(temperature)
-                .messages(List.of(messages))
+                .messages(messages)
                 .build();
         return restClient.post()
                 .body(chatParamsRequest)
