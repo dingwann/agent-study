@@ -1,7 +1,6 @@
 package org.example.dingwan.agent.planandsolve;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.dingwan.tool.ChatClient;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,12 +12,10 @@ import java.util.List;
 @Slf4j
 public class PlanAndSolveAgent {
 
-    private final ChatClient chatClient;
     private final Executor executor;
     private final Planner planner;
 
-    public PlanAndSolveAgent(ChatClient chatClient, Executor executor, Planner planner) {
-        this.chatClient = chatClient;
+    public PlanAndSolveAgent(Executor executor, Planner planner) {
         this.executor = executor;
         this.planner = planner;
     }
