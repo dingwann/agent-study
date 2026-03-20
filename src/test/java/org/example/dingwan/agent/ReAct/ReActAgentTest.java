@@ -12,7 +12,9 @@ class ReActAgentTest {
 
     @Test
     void execute() {
-        String run = reActAgent.run("2024年诺贝尔物理学奖获得者是谁？他的主要贡献是什么？");
+        // String run = reActAgent.run("2024年诺贝尔物理学奖获得者是谁？他的主要贡献是什么？");
+        String run = reActAgent.run("计算 (123 +\n" +
+                "456) × 789/ 12的结果");
         System.out.println(run);
         /*
         * --- 第1步
